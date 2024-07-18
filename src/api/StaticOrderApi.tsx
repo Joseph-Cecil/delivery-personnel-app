@@ -12,7 +12,7 @@ export const useGetAllStaticOrders = () => {
     if (!response.ok) {
       throw new Error("Failed to get all static orders");
     }
-    console.log("i have been called")
+    
 
     return response.json();
   };

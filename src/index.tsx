@@ -58,7 +58,7 @@ export default function Dashboard() {
         </div>
         <Tabs
           orientation="vertical"
-          defaultValue="overview"
+          defaultValue="shop-orders"
           className="space-y-4"
         >
           <div className="w-full overflow-x-auto pb-2">
