@@ -3,6 +3,7 @@ import GeneralError from './pages/errors/general-error';
 import React from "react";
 
 const App = createBrowserRouter([
+  
   {
     path: '/',
     lazy: async () => {
