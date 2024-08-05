@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
-import Sidebar from './sidebar'
-import useIsCollapsed from '@/hooks/use-is-collapsed'
+import Sidebar from './sidebar.tsx'
+import useIsCollapsed from '@/hooks/use-is-collapsed.tsx'
 import React from 'react'
 
 export default function AppShell() {

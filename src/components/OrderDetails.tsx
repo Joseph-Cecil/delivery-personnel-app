@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useOrders } from "../OrderContext";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { useOrders } from "../OrderContext.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.tsx";
 import { IconSeparator } from "@tabler/icons-react";
 
 const OrderDetails = () => {

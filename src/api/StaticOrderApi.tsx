@@ -1,4 +1,4 @@
-import { StaticOrders } from "@/types";
+import { StaticOrders } from "@/types.ts";
 import { useQuery } from "react-query";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;

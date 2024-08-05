@@ -1,6 +1,6 @@
-import React, { createContext, useContext          } from 'react';
-import { useGetAllShopOrders } from './api/ShopApi';
-import { useGetAllStaticOrders } from './api/StaticOrderApi';
+import React, { createContext, useContext} from 'react';
+import { useGetAllShopOrders } from './api/ShopApi.tsx';
+import { useGetAllStaticOrders } from './api/StaticOrderApi.tsx';
 
 const OrderContext = createContext(null);
 
