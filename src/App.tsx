@@ -2,63 +2,34 @@ import { createBrowserRouter } from "react-router-dom";
 import GeneralError from './pages/errors/general-error.js';
 import React from "react";
 
-const App = createBrowserRouter([
-  
+// eslint-disable-next-line react-refresh/only-export-components
+const AppShell = React.lazy(() => import('./components/AppShell.js'));
+const IndexComponent = React.lazy(() => import('./index.js'));
+// eslint-disable-next-line react-refresh/only-export-components
+const OrderDetails = React.lazy(() => import('./components/OrderDetails.js'));
+// eslint-disable-next-line react-refresh/only-export-components
+const ThemeSwitch = React.lazy(() => import('./components/theme-switch.js'));
+
+const router = createBrowserRouter([
   {
     path: '/',
-    lazy: async () => {
-      try {
-        const AppShell = await import('./components/AppShell.js');
-        console.log('AppShell loaded successfully');
-        return { Component: AppShell.default };
-      } catch (error) {
-        console.error('Error loading AppShell:', error);
-        throw error;
-      }
-    },
+    element: <AppShell />,
     errorElement: <GeneralError />,
     children: [
       {
         index: true,
-        lazy: async () => {
-          try {
-            const Component = (await import('./index.js')).default;
-            console.log('Index component loaded successfully');
-            return { Component };
-          } catch (error) {
-            console.error('Error loading index component:', error);
-            throw error;
-          }
-        },
+        element: <IndexComponent />,
       },
       {
         path: 'order/:orderId',
-        lazy: async () => {
-          try {
-            const Component = (await import('./components/OrderDetails.js')).default;
-            console.log('OrderDetails component loaded successfully');
-            return { Component };
-          } catch (error) {
-            console.error('Error loading OrderDetails component:', error);
-            throw error;
-          }
-        },
+        element: <OrderDetails />,
       },
       {
         path: 'tasks',
-        lazy: async () => {
-          try {
-            const Component = (await import('./components/theme-switch.js')).default;
-            console.log('ThemeSwitch component loaded successfully');
-            return { Component };
-          } catch (error) {
-            console.error('Error loading ThemeSwitch component:', error);
-            throw error;
-          }
-        },
+        element: <ThemeSwitch />,
       }
     ]
   }
 ]);
 
-export default App;
+export default router;
