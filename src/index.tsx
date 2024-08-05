@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Layout } from "@/components/custom/layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ThemeSwitch from "@/components/theme-switch";
-import { TopNav } from "@/components/top-nav";
-import { UserNav } from "@/components/user-nav";
-import { useGetAllShopOrders } from "./api/ShopApi"; // Ensure the correct path
-import { useGetAllStaticOrders } from "./api/StaticOrderApi";
-import { useNotification } from "./NotificationContext";
-import { requestNotificationPermission, showNotification } from "./NotificationService";
+import { Layout } from "@/components/custom/layout.js";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.js";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs.js";
+import ThemeSwitch from "@/components/theme-switch.js";
+import { TopNav } from "@/components/top-nav.js";
+import { UserNav } from "@/components/user-nav.js";
+import { useGetAllShopOrders } from "./api/ShopApi.js"; // Ensure the correct path
+import { useGetAllStaticOrders } from "./api/StaticOrderApi.js";
+import { useNotification } from "./NotificationContext.js";
+import { requestNotificationPermission, showNotification } from "./NotificationService.js";
 
 export default function Dashboard() {
   const [prevShopOrderCount, setPrevShopOrderCount] = useState(0);

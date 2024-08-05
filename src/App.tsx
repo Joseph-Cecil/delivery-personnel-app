@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import GeneralError from './pages/errors/general-error';
+import GeneralError from './pages/errors/general-error.js';
 import React from "react";
 
 const App = createBrowserRouter([
@@ -8,7 +8,7 @@ const App = createBrowserRouter([
     path: '/',
     lazy: async () => {
       try {
-        const AppShell = await import('./components/AppShell');
+        const AppShell = await import('./components/AppShell.js');
         console.log('AppShell loaded successfully');
         return { Component: AppShell.default };
       } catch (error) {
@@ -22,7 +22,7 @@ const App = createBrowserRouter([
         index: true,
         lazy: async () => {
           try {
-            const Component = (await import('./index')).default;
+            const Component = (await import('./index.js')).default;
             console.log('Index component loaded successfully');
             return { Component };
           } catch (error) {
@@ -35,7 +35,7 @@ const App = createBrowserRouter([
         path: 'order/:orderId',
         lazy: async () => {
           try {
-            const Component = (await import('./components/OrderDetails')).default;
+            const Component = (await import('./components/OrderDetails.js')).default;
             console.log('OrderDetails component loaded successfully');
             return { Component };
           } catch (error) {
@@ -48,7 +48,7 @@ const App = createBrowserRouter([
         path: 'tasks',
         lazy: async () => {
           try {
-            const Component = (await import('./components/theme-switch')).default;
+            const Component = (await import('./components/theme-switch.js')).default;
             console.log('ThemeSwitch component loaded successfully');
             return { Component };
           } catch (error) {

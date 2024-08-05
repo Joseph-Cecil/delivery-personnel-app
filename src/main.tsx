@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
-import { Toaster } from '@/components/ui/toaster'
-import { ThemeProvider } from '@/components/theme-provider'
-import App from '@/App'
+import { Toaster } from '@/components/ui/toaster.js'
+import { ThemeProvider } from '@/components/theme-provider.js'
+import App from '@/App.tsx'
 import '@/index.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { OrderProvider } from './OrderContext'
-import { NotificationProvider } from './NotificationContext'  // Add this line
+import { OrderProvider } from './OrderContext.tsx'
+import { NotificationProvider } from './NotificationContext.tsx'  // Add this line
 
 
 const queryClient = new QueryClient({
