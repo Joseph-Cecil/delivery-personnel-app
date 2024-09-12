@@ -47,7 +47,7 @@ const App = createBrowserRouter([
         path: 'tasks',
         lazy: async () => {
           try {
-            const Component = (await import('./components/theme-switch')).default;
+            const Component = (await import('./index')).default;
             console.log('ThemeSwitch component loaded successfully');
             return { Component };
           } catch (error) {

@@ -4,8 +4,8 @@ import { Layout } from "@/components/custom/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ThemeSwitch from "@/components/theme-switch";
-import { TopNav } from "@/components/top-nav";
-import { UserNav } from "@/components/user-nav";
+// import { TopNav } from "@/components/top-nav";
+// import { UserNav } from "@/components/user-nav";
 import { useGetAllShopOrders } from "./api/ShopApi"; // Ensure the correct path
 import { useGetAllStaticOrders } from "./api/StaticOrderApi";
 
@@ -45,10 +45,10 @@ export default function Dashboard() {
   return (
     <Layout>
       <Layout.Header>
-        <TopNav links={topNav} />
+        {/* <TopNav links={topNav} /> */}
         <div className="ml-auto flex items-center space-x-4">
           <ThemeSwitch />
-          <UserNav />
+          {/* <UserNav /> */}
         </div>
       </Layout.Header>
 
@@ -216,25 +216,25 @@ export default function Dashboard() {
   );
 }
 
-const topNav = [
-  {
-    title: "Orders",
-    href: "dashboard/overview",
-    isActive: true,
-  },
-  {
-    title: "Static Orders",
-    href: "dashboard/customers",
-    isActive: false,
-  },
-  {
-    title: "Completed Orders",
-    href: "dashboard/products",
-    isActive: false,
-  },
-  {
-    title: "Settings",
-    href: "dashboard/settings",
-    isActive: false,
-  },
-];
+// const topNav = [
+//   {
+//     title: "Orders",
+//     href: "dashboard/overview",
+//     isActive: true,
+//   },
+//   {
+//     title: "Static Orders",
+//     href: "dashboard/customers",
+//     isActive: false,
+//   },
+//   {
+//     title: "Completed Orders",
+//     href: "dashboard/products",
+//     isActive: false,
+//   },
+//   {
+//     title: "Settings",
+//     href: "dashboard/settings",
+//     isActive: false,
+//   },
+// ];
