@@ -1,10 +1,13 @@
 import React,{ useEffect, useState } from 'react'
-import { IconChevronsLeft, IconMenu2, IconX } from '@tabler/icons-react'
-import { Layout } from './custom/layout.tsx'
-import { Button } from './custom/button.tsx'
-import Nav from './nav.tsx'
-import { cn } from '@/lib/utils.ts'
-import { sidelinks } from '@/data/sidelinks.tsx'
+
+import { IconChevronsLeft } from '@tabler/icons-react'
+// import {  IconMenu2, IconX } from '@tabler/icons-react'
+import { Layout } from './custom/layout'
+import { Button } from './custom/button'
+// import Nav from './nav'
+import { cn } from '@/lib/utils'
+// import { sidelinks } from '@/data/sidelinks'
+
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   isCollapsed: boolean
@@ -86,7 +89,7 @@ export default function Sidebar({
           </div>
 
           {/* Toggle Button in mobile */}
-          <Button
+          {/* <Button
             variant='ghost'
             size='icon'
             className='md:hidden'
@@ -96,17 +99,17 @@ export default function Sidebar({
             onClick={() => setNavOpened((prev) => !prev)}
           >
             {navOpened ? <IconX /> : <IconMenu2 />}
-          </Button>
+          </Button> */}
         </Layout.Header>
 
         {/* Navigation links */}
-        <Nav
+        {/* <Nav
           id='sidebar-menu'
           className={`z-40 h-full flex-1 overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen md:py-2'}`}
           closeNav={() => setNavOpened(false)}
           isCollapsed={isCollapsed}
           links={sidelinks}
-        />
+        /> */}
 
         {/* Scrollbar width toggle button */}
         <Button
