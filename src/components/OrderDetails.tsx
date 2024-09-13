@@ -1,7 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useOrders } from "../OrderContext";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { useOrders } from "../OrderContext.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.tsx";
+import { IconSeparator } from "@tabler/icons-react";
 
 const OrderDetails = () => {
   const { orderId } = useParams();
@@ -22,38 +23,74 @@ const OrderDetails = () => {
   const isAdminOrder = !!adminOrder;
 
   return (
-    <div style={{marginTop:"50%", marginLeft:'10%', marginRight:'10%'}}>
-    <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+    <div style={{ marginTop: "20%", marginLeft: "10%", marginRight: "10%" }}>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">
-                      {isAdminOrder ? order.restaurant.restaurantName : order.staticOrder}
-                      </CardTitle>
-                      
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">
-                        <span className="font-bold">Your Order</span>
-          <ul>
-             {isAdminOrder ? (
-               order.cartItems.map((item, key) => (
-                 <li key={key}>
-                   {item.name} x {item.quantity}
-                 </li>
-               ))
-             ) : (
-               <li>{order.staticOrder}</li>
-             )}
-           </ul>
-                      </div>
-                      <p className="text-xs text-muted-foreground">
-                        Total: Ghc{order.totalAmount} .00
-                      </p>
-                    </CardContent>
-                  </Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-md font-medium">
+              {isAdminOrder ? order.restaurant.restaurantName : order.location}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              <br />
+              <span className="font-bold">
+                <h5>
+                  <u>Your Order</u>
+                </h5>
+              </span>
+              <br />
+
+              <ul>
+                {isAdminOrder ? (
+                  <>
+                    <li>
+                      <u>CartItems :{" "}</u>
+                      {order.cartItems.map((item, key) => (
+                        
+                        <li key={key}><br/>
+                          {item.name} x {item.quantity}<br/><br/>
+                        </li>
+                        
+                      ))}
+                    </li>
+                    <IconSeparator />
+                    <br />
+                    <li>PhoneNumber: {order.deliveryDetails.phoneNumber}</li>
+                    <br />
+                    <li>AreaName: {order.deliveryDetails.areaName}</li>
+                    <br />
+                    <li>StreetName: {order.deliveryDetails.streetName}</li>
+                    <br />
+                    <li>HouseNumber: {order.deliveryDetails.houseNumber}</li>
+                  </>
+                ) : (
+                  <>
+                    <li>{order.staticOrder}</li>
+                    <br />
+                    <li>More Info: {order.additionalInfo}</li>
+                    <IconSeparator />
+                    <br />
+                    <li>Phone: {order.phoneNumber}</li>
+                    <br />
+                    <li>Delivery: {order.deliveryLocation}</li>
+                    <IconSeparator />
+                    <br />
+                  </>
+                )}
+              </ul>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Total: Ghc{order.totalAmount} .00
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
-    </div>
- 
+
+    //    </>
+    //  ))
+
     // <div className="space-y-8">
     //   <div className="flex items-center">
     //     <div className="ml-4 space-y-1">
@@ -85,7 +122,7 @@ const OrderDetails = () => {
     //     <div className="ml-auto font-medium">
     //       Phone Number: {isAdminOrder ? order.deliveryDetails.phoneNumber : order.phoneNumber}
     //     </div>
-        
+
     //     <div className="ml-auto font-medium">Status: {order.status}</div>
     //   </div>
     // </div>

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { Layout } from "@/components/custom/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,13 +10,53 @@ import ThemeSwitch from "@/components/theme-switch";
 import { useGetAllShopOrders } from "./api/ShopApi"; // Ensure the correct path
 import { useGetAllStaticOrders } from "./api/StaticOrderApi";
 
-export default function Dashboard() {
-  const { AdminOrders, isLoading } = useGetAllShopOrders();
-  const { staticOrders, isLoading: staticOrdersIsLoading } =
-    useGetAllStaticOrders();
-  const navigate = useNavigate();
 
-  const getStatusIconPath = (status) => {
+export default function Dashboard() {
+  const [prevShopOrderCount, setPrevShopOrderCount] = useState(0);
+  const [prevStaticOrderCount, setPrevStaticOrderCount] = useState(0);
+  const { AdminOrders, isLoading: shopOrdersLoading } = useGetAllShopOrders();
+  const { staticOrders, isLoading: staticOrdersLoading } = useGetAllStaticOrders();
+  const { addNotification, playSound } = useNotification();
+  const navigate = useNavigate();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    registerServiceWorker();
+    requestNotificationPermission();
+  }, []);
+
+  useEffect(() => {
+    if (!shopOrdersLoading && !staticOrdersLoading) {
+      const currentShopOrderCount = AdminOrders.length;
+      const currentStaticOrderCount = staticOrders.length;
+
+      if (currentShopOrderCount > prevShopOrderCount) {
+        playSound();
+        addNotification({ type: 'order', message: 'New shop order placed!' });
+        showNotification('New Shop Order');
+      }
+
+      if (currentStaticOrderCount > prevStaticOrderCount) {
+        playSound();
+        addNotification({ type: 'order', message: 'New static order placed!' });
+        showNotification('New Static Order');
+      }
+
+      setPrevShopOrderCount(currentShopOrderCount);
+      setPrevStaticOrderCount(currentStaticOrderCount);
+    }
+  }, [
+    AdminOrders,
+    staticOrders,
+    shopOrdersLoading,
+    staticOrdersLoading,
+    prevShopOrderCount,
+    prevStaticOrderCount,
+    addNotification,
+    playSound
+  ]);
+
+  const getStatusIconPath = (status: string) => {
     switch (status) {
       case "placed":
         return "M5 12L19 12M5 12L11 18M5 12L11 6"; // Example path
@@ -32,15 +73,13 @@ export default function Dashboard() {
     }
   };
 
-  const handleCardClick = (orderId) => {
+  const handleCardClick = (orderId: string) => {
     navigate(`/order/${orderId}`);
   };
 
   // Filter orders with status 'paid'
-  const completedShopOrders =
-    AdminOrders?.filter((order) => order.status === "placed") || [];
-  const completedStaticOrders =
-    staticOrders?.filter((order) => order.status === "placed") || [];
+  const completedShopOrders = AdminOrders?.filter(order => order.status === "placed") || [];
+  const completedStaticOrders = staticOrders?.filter(order => order.status === "placed") || [];
 
   return (
     <Layout>
@@ -56,33 +95,26 @@ export default function Dashboard() {
         <div className="mb-2 flex items-center justify-between space-y-2">
           <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
         </div>
-        <Tabs
-          orientation="vertical"
-          defaultValue="overview"
-          className="space-y-4"
-        >
+        <Tabs orientation="vertical" defaultValue="shop-orders" className="space-y-4">
           <div className="w-full overflow-x-auto pb-2">
             <TabsList>
               <TabsTrigger value="shop-orders">Shop - Orders</TabsTrigger>
               <TabsTrigger value="static-orders">Static - Orders</TabsTrigger>
-              <TabsTrigger value="completed-orders">
-                Completed - Orders
-              </TabsTrigger>
+              <TabsTrigger value="completed-orders">Completed - Orders</TabsTrigger>
             </TabsList>
           </div>
 
           {/* Shop Orders */}
           <TabsContent value="shop-orders" className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {isLoading ? (
+              {shopOrdersLoading ? (
                 <p>Loading...</p>
               ) : (
                 AdminOrders.map((order, index) => (
                   <Card key={index} onClick={() => handleCardClick(order._id)}>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                       <CardTitle className="text-sm font-medium">
-                        {order.restaurant?.restaurantName ||
-                          "Unknown Restaurant"}
+                        {order.restaurant?.restaurantName || "Unknown Restaurant"}
                       </CardTitle>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +146,7 @@ export default function Dashboard() {
           {/* Static Orders */}
           <TabsContent value="static-orders" className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {staticOrdersIsLoading ? (
+              {staticOrdersLoading ? (
                 <p>Loading...</p>
               ) : (
                 staticOrders.map((order, index) => (
@@ -133,14 +165,13 @@ export default function Dashboard() {
                         strokeWidth="2"
                         className="h-4 w-4 text-muted-foreground"
                       >
-                        <path d="M5 12L19 12M5 12L11 18M5 12L11 6" />{" "}
-                        {/* Example SVG path */}
+                        <path d="M5 12L19 12M5 12L11 18M5 12L11 6" />
                       </svg>
                     </CardHeader>
                     <CardContent>
                       <div className="text-2xl font-bold">{order.location}</div>
                       <p className="text-xs text-muted-foreground">
-                        {order.phoneNumber} from last month
+                        {order.phoneNumber}
                       </p>
                     </CardContent>
                   </Card>
@@ -148,8 +179,8 @@ export default function Dashboard() {
               )}
             </div>
           </TabsContent>
-          {/* Completed Orders */}
-          <TabsContent value="completed-orders" className="space-y-4">
+                    {/* Completed Orders */}
+                    <TabsContent value="completed-orders" className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {completedShopOrders.map((order, index) => (
                 <Card key={index}>
@@ -196,8 +227,7 @@ export default function Dashboard() {
                       strokeWidth="2"
                       className="h-4 w-4 text-muted-foreground"
                     >
-                      <path d="M5 12L19 12M5 12L11 18M5 12L11 6" />{" "}
-                      {/* Example SVG path */}
+                      <path d="M5 12L19 12M5 12L11 18M5 12L11 6" />
                     </svg>
                   </CardHeader>
                   <CardContent>
@@ -212,9 +242,11 @@ export default function Dashboard() {
           </TabsContent>
         </Tabs>
       </Layout.Body>
+      <audio ref={audioRef} src="path_to_notification_sound.mp3" />
     </Layout>
   );
 }
+
 
 // const topNav = [
 //   {
