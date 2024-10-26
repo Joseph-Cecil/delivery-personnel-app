@@ -8,7 +8,7 @@ const IndexComponent = React.lazy(() => import('./index.js'));
 // eslint-disable-next-line react-refresh/only-export-components
 const OrderDetails = React.lazy(() => import('./components/OrderDetails.js'));
 // eslint-disable-next-line react-refresh/only-export-components
-const ThemeSwitch = React.lazy(() => import('./components/theme-switch.js'));
+// const ThemeSwitch = React.lazy(() => import('./components/theme-switch.js'));
 
 const router = createBrowserRouter([
   {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
 
         lazy: async () => {
           try {
-            const Component = (await import('./index')).default;
+            const Component = (await import('./index.js')).default;
             console.log('ThemeSwitch component loaded successfully');
             return { Component };
           } catch (error) {

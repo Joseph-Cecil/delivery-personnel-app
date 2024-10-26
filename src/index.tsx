@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { Layout } from "@/components/custom/layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ThemeSwitch from "@/components/theme-switch";
+import { Layout } from "@/components/custom/layout.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs.tsx";
+import ThemeSwitch from "@/components/theme-switch.tsx";
 // import { TopNav } from "@/components/top-nav";
 // import { UserNav } from "@/components/user-nav";
-import { useGetAllShopOrders } from "./api/ShopApi"; // Ensure the correct path
-import { useGetAllStaticOrders } from "./api/StaticOrderApi";
+import { useGetAllShopOrders } from "./api/ShopApi.js"; // Ensure the correct path
+import { useGetAllStaticOrders } from "./api/StaticOrderApi.js";
+import { useNotification } from "./NotificationContext.tsx";
 
 
 export default function Dashboard() {
@@ -20,27 +20,14 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  useEffect(() => {
-    registerServiceWorker();
-    requestNotificationPermission();
-  }, []);
+ 
 
   useEffect(() => {
     if (!shopOrdersLoading && !staticOrdersLoading) {
       const currentShopOrderCount = AdminOrders.length;
       const currentStaticOrderCount = staticOrders.length;
 
-      if (currentShopOrderCount > prevShopOrderCount) {
-        playSound();
-        addNotification({ type: 'order', message: 'New shop order placed!' });
-        showNotification('New Shop Order');
-      }
-
-      if (currentStaticOrderCount > prevStaticOrderCount) {
-        playSound();
-        addNotification({ type: 'order', message: 'New static order placed!' });
-        showNotification('New Static Order');
-      }
+    
 
       setPrevShopOrderCount(currentShopOrderCount);
       setPrevStaticOrderCount(currentStaticOrderCount);
@@ -246,6 +233,7 @@ export default function Dashboard() {
     </Layout>
   );
 }
+
 
 
 // const topNav = [
